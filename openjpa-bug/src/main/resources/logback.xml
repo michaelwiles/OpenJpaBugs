@@ -1,0 +1,26 @@
+<configuration>
+
+    <contextName>ashes-web</contextName>
+    <jmxConfigurator />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+        <encoder>
+            <pattern>openjpa-bug %d %-5level [%thread] %logger{10} %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="org" level="INFO"/>
+    <logger name="com.afrozaar" level="DEBUG" />
+   <!--  <ogger name="openjpa.Runtime" level="TRACE"/> -->
+    <logger name="com.jolbox.bonecp">
+        <level value="DEBUG" />
+    </logger>
+
+    <root level="TRACE">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+
