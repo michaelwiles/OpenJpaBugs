@@ -9,7 +9,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
-import org.eclipse.persistence.jpa.PersistenceProvider;
+import org.apache.openjpa.persistence.PersistenceProviderImpl;
 
 import javax.sql.DataSource;
 
@@ -45,8 +45,8 @@ public class ApplicationContext {
         //entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
         entityManagerFactoryBean.setDataSource(dataSource());
 
-        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
-        //entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
+        //entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
+        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
 
         Properties jpaProperties = new Properties();
 
