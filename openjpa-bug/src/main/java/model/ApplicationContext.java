@@ -4,13 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
-import org.apache.openjpa.persistence.PersistenceProviderImpl;
+import org.eclipse.persistence.jpa.PersistenceProvider;
 
 import javax.sql.DataSource;
 
@@ -43,17 +42,27 @@ public class ApplicationContext {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() throws ClassNotFoundException {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 
-        entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
+        //entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
         entityManagerFactoryBean.setDataSource(dataSource());
 
-        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
+        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
+        //entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
 
         Properties jpaProperties = new Properties();
 
-        jpaProperties.put("openjpa.Log","slf4j");
+        jpaProperties.put("openjpa.Log", "slf4j");
         jpaProperties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
         jpaProperties.put("openjpa.jdbc.MappingDefaults", "ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict");
         jpaProperties.put("openjpa.RuntimeUnenhancedClasses", "warn");
+
+        jpaProperties.put("eclipselink.ddl-generation", "create-tables");
+        jpaProperties.put("eclipselink.ddl-generation.output-mode", "database");
+        /*
+         * <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
+            <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+         */
 
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;

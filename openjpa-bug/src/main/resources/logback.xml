@@ -14,12 +14,12 @@
 
     <logger name="org" level="INFO"/>
     <logger name="com.afrozaar" level="DEBUG" />
-   <!--  <ogger name="openjpa.Runtime" level="TRACE"/> -->
+    <!-- <ogger name="openjpa.Runtime" level="TRACE"/>  -->
     <logger name="com.jolbox.bonecp">
         <level value="DEBUG" />
     </logger>
 
-    <root level="TRACE">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
