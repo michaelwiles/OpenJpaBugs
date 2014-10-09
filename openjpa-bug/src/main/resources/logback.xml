@@ -7,19 +7,15 @@
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
 			by default -->
         <encoder>
-            <pattern>openjpa-bug %d %-5level [%thread] %logger{10} %-5level - %msg%n</pattern>
+            <pattern>openjpa-bug test %-5level %logger %-5level - %msg%n</pattern>
         </encoder>
     </appender>
 
 
-    <logger name="org" level="INFO"/>
-    <logger name="com.afrozaar" level="DEBUG" />
-    <!-- <ogger name="openjpa.Runtime" level="TRACE"/>  -->
-    <logger name="com.jolbox.bonecp">
-        <level value="DEBUG" />
-    </logger>
+    <logger name="openjpa" level="TRACE" />
+    <logger name="com.jolbox" level="TRACE" />
 
-    <root level="INFO">
+    <root level="ERROR">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

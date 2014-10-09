@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
@@ -30,16 +29,19 @@ public class Container {
     Long id;
 
     @OrderColumn
-    @JoinColumn
-    @OneToMany(cascade = CascadeType.ALL)
-    List<OrderedElement> elementsWithOrder = Lists.newArrayList();
-
-    @OrderColumn
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "container")
-    List<UnOrderedElement> elementsNoOrder = Lists.newArrayList();
+    private List<OrderedElement> elementsWithOrder = Lists.newArrayList();
 
     public Long getId() {
         return id;
+    }
+
+    public List<OrderedElement> getElementsWithOrder() {
+        return elementsWithOrder;
+    }
+
+    public void setElementsWithOrder(List<OrderedElement> elementsWithOrder) {
+        this.elementsWithOrder = elementsWithOrder;
     }
 
 }

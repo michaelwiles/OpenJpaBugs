@@ -2,21 +2,17 @@ package model;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-
-import org.apache.openjpa.persistence.PersistenceProviderImpl;
 
 import javax.sql.DataSource;
 
 import java.util.Properties;
 
-@Configuration
-@EnableJpaRepositories(basePackages = "model")
 @ComponentScan(basePackages = { "model" })
 public class ApplicationContext {
 
@@ -46,15 +42,19 @@ public class ApplicationContext {
         entityManagerFactoryBean.setDataSource(dataSource());
 
         //entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProvider.class);
-        entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
+        //entityManagerFactoryBean.setPersistenceProviderClass(PersistenceProviderImpl.class);
 
+        OpenJpaVendorAdapter jpaVendorAdapter = new OpenJpaVendorAdapter();
+        entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+        jpaVendorAdapter.setDatabase(Database.HSQL);
+        jpaVendorAdapter.setGenerateDdl(true);
         Properties jpaProperties = new Properties();
 
-        jpaProperties.put("openjpa.Log", "slf4j");
-        jpaProperties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
+        //jpaProperties.put("openjpa.Log", "slf4j");
+        /*        jpaProperties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");*/
         jpaProperties.put("openjpa.jdbc.MappingDefaults", "ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict");
-        jpaProperties.put("openjpa.RuntimeUnenhancedClasses", "warn");
-
+        //jpaProperties.put("openjpa.RuntimeUnenhancedClasses", "supported");
+        jpaProperties.put("openjpa.InverseManager", "false");
         jpaProperties.put("eclipselink.ddl-generation", "create-tables");
         jpaProperties.put("eclipselink.ddl-generation.output-mode", "database");
         /*

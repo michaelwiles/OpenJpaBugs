@@ -28,7 +28,7 @@ public class OrderedElement {
     @Id
     Long id;
 
-    @OrderColumn
+    @OrderColumn(nullable = true)
     @JoinColumn
     @ManyToOne(fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
     Container container;
